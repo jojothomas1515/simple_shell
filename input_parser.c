@@ -10,10 +10,10 @@
 int stop_check(int *status, char *line)
 {
 	if (*status == -1)
-		return (-1);
+		exit(EXIT_SUCCESS);
 
 	if (_strcmp(line, "exit\n") == 0)
-		return (-1);
+		exit(EXIT_SUCCESS);
 
 	return (0);
 }
