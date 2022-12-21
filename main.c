@@ -21,7 +21,7 @@ int main(int ac, char **av)
 	/* for child process */
 	__pid_t cpid, wstatus;
 	int exec_status;
-	char err_msg[100];
+	char err_msg[100], *hist;
 	/* to count the number of commands */
 	static int counts;
 	/* for execve */
@@ -51,7 +51,13 @@ int main(int ac, char **av)
 			exec_status = execve(command, arguments, environ);
 			if (exec_status == -1)
 			{
-				sprintf(err_msg, "%s: %d: %s", av[0], counts, command);
+				hist = _itoa(counts);
+				_strcpy(err_msg, av[0]);
+				_strcat(err_msg, ": ");
+				_strcat(err_msg, hist);
+				_strcat(err_msg, ": ");
+				_strcat(err_msg, command);
+
 				perror(err_msg);
 				_exit(errno);
 			}
