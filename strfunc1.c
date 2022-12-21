@@ -51,15 +51,14 @@ char *_strncat(char *dest, char *src, size_t n)
 
 int num_length(int num)
 {
-	int n = 1;
+	int n = 0;
 
+	if (num < 0)
+		n++;
 	while (num > 0)
 	{
-		if ((num / 10))
-		{
-			num /= 10;
-			n++;
-		}
+		num /= 10;
+		n++;
 	}
 	return (n);
 }
