@@ -1,11 +1,13 @@
 #include "main.h"
 
 int stop_check(int *, char *);
-char *tokenize(char *);
+char *tokenize(char *, char **);
 int whitespace(char *);
 
 /**
  * main - simple shell program
+ * @ac: arguments count
+ * @av: arguments array
  * Return: 0 on exit success
  */
 
@@ -36,7 +38,7 @@ int main(int ac, char **av)
 
 		if (whitespace(line))
 			continue;
-		command = tokenize(line);
+		command = tokenize(line, arguments);
 
 		cpid = fork();
 
@@ -50,7 +52,7 @@ int main(int ac, char **av)
 			exec_status = execve(command, arguments, environ);
 			if (exec_status == -1)
 			{
-				sprintf(err_msg, "%s: %d: %s",av[0], counts, command);
+				sprintf(err_msg, "%s: %d: %s", av[0], counts, command);
 				perror(err_msg);
 				_exit(errno);
 			}
@@ -85,16 +87,26 @@ int stop_check(int *status, char *line)
 /**
  * tokenize - split stdin string to tokens of command and arguments
  * @line: string from stdin
- *
+ * @args: argrument array to puth all tokens
+ * Return: address of the command
  */
-char *tokenize(char *line)
+char *tokenize(char *line, char **args)
 {
 	char *arr;
+	int i = 1;
 
-	arr = strtok(line, " ");
-	arr = strtok(line, "\n");
+	args[0] = strtok(line, " ");
 
-	return (arr);
+	while ((arr = strtok(NULL, " ")) != NULL)
+	{
+		args[i++] = arr;
+	}
+	args[i] = NULL;
+
+	for (i = 0; args[i] != NULL; i++)
+		args[i] = strtok(args[i], "\n");
+
+	return (args[0]);
 }
 
 /**
