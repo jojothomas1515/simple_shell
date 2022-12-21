@@ -11,8 +11,15 @@
 
 /* my includes */
 #include "mystr.h"
+#include "errors.h"
 
 /* global variable */
 extern char **environ;
+
+/* parsers */
+int stop_check(int *, char *);
+char *tokenize(char *, char **);
+int whitespace(char *);
+
 
 #endif /* MAIN_H */

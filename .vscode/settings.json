@@ -1,5 +1,7 @@
 {
         "files.associations": {
-                "mystr.h": "c"
+                "mystr.h": "c",
+                "main.h": "c",
+                "errors.h": "c"
         }
 }
