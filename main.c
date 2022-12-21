@@ -28,10 +28,9 @@ int main(int ac, char **av)
 	char *arguments[10] = {NULL};
 
 	(void)ac;
-
 	while (1)
 	{
-		printf("$ ");
+		isatty(STDIN_FILENO) ? printf("$ ") : 0;
 		status = getline(&line, &len, stream);
 		stop_check(&status, line) == -1 ? exit(EXIT_SUCCESS) : (void)NULL;
 		counts++;
