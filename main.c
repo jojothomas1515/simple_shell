@@ -57,8 +57,8 @@ int main(int ac, char **av)
 				_strcat(err_msg, hist);
 				_strcat(err_msg, ": ");
 				_strcat(err_msg, command);
-
-				perror(err_msg);
+				_strcat(err_msg, ": not found\n");
+				write(2, err_msg, _strlen(err_msg));
 				_exit(errno);
 			}
 		}
