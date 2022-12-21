@@ -30,7 +30,7 @@ int main(int ac, char **av)
 	(void)ac;
 	while (1)
 	{
-		isatty(STDIN_FILENO) ? printf("$ ") : 0;
+		isatty(STDIN_FILENO) ? write(STDIN_FILENO, "$ ", 3) : 0;
 		status = getline(&line, &len, stream);
 		stop_check(&status, line) == -1 ? exit(EXIT_SUCCESS) : (void)NULL;
 		counts++;
@@ -78,7 +78,7 @@ int stop_check(int *status, char *line)
 	if (*status == -1)
 		return (-1);
 
-	if (strcmp(line, "exit\n") == 0)
+	if (_strcmp(line, "exit\n") == 0)
 		return (-1);
 
 	return (0);
