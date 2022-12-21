@@ -23,7 +23,7 @@ int main(int ac, char **av)
 	/* to count the number of commands */
 	static int counts;
 	/* for execve */
-	char *arguments[] = {NULL};
+	char *arguments[10] = {NULL};
 
 	(void)ac;
 
