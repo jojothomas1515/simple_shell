@@ -15,15 +15,15 @@ int main(int ac, char **av)
 {
 	/* getline parameters */
 	FILE *stream = stdin;
-	char *line, *command;
-	size_t len;
-	int status = 0;
+	char *line = NULL, *command = NULL;
+	size_t len = 0;
+	int status = 0, i;
 	/* for child process */
-	__pid_t cpid, wstatus;
-	int exec_status;
+	__pid_t cpid = 0, wstatus = 0;
+	int exec_status = 0;
 	char err_msg[100], *hist;
 	/* to count the number of commands */
-	static int counts;
+	static int counts = 0;
 	/* for execve */
 	char *arguments[10] = {NULL};
 
@@ -32,7 +32,8 @@ int main(int ac, char **av)
 	{
 		isatty(STDIN_FILENO) ? write(STDIN_FILENO, "$ ", 3) : 0;
 		status = getline(&line, &len, stream);
-		stop_check(&status, line) == -1 ? exit(EXIT_SUCCESS) : (void)NULL;
+		if (stop_check(&status, line) == -1)
+			break;
 		counts++;
 
 		if (whitespace(line))
@@ -59,6 +60,8 @@ int main(int ac, char **av)
 				_strcat(err_msg, command);
 				_strcat(err_msg, ": not found\n");
 				write(2, err_msg, _strlen(err_msg));
+				free(hist);
+				free(line);
 				_exit(errno);
 			}
 		}
@@ -69,6 +72,9 @@ int main(int ac, char **av)
 				kill(cpid, 9);
 		}
 	}
+
+	for (i = 0; arguments[i] != NULL; i++)
+		free(arguments[i]);
 	return (0);
 }
 
