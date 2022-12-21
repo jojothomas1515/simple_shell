@@ -15,6 +15,7 @@ int main(__attribute__((unused)) int ac, char **av)
 	int status = 0, i, counts = 0, exec_status = 0;
 	__pid_t cpid = 0, wstatus = 0;
 
+
 	while (1)
 	{
 		isatty(STDIN_FILENO) ? write(STDIN_FILENO, "$ ", 3) : 0;

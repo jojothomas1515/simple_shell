@@ -21,5 +21,13 @@ int stop_check(int *, char *);
 char *tokenize(char *, char **);
 int whitespace(char *);
 
+/* structures */
+
+typedef struct paths
+{
+	char *key;
+	char *value;
+	struct paths *next;
+} paths_t;
 
 #endif /* MAIN_H */
