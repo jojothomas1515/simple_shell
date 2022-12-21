@@ -30,7 +30,7 @@ int main(void)
 
 	while (1)
 	{
-		printf("$ ");
+		printf("#cisfun$ ");
 		status = getline(&line, &len, stream);
 		stop_check(&status, line) == -1 ? exit(EXIT_SUCCESS) : (void)NULL;
 		counts++;
