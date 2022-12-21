@@ -4,14 +4,12 @@ int stop_check(int *, char *);
 char *tokenize(char *);
 int whitespace(char *);
 
-extern char **environ;
-
 /**
  * main - simple shell program
  * Return: 0 on exit success
  */
 
-int main(void)
+int main(int ac, char **av)
 {
 	/* getline parameters */
 	FILE *stream = stdin;
@@ -27,6 +25,7 @@ int main(void)
 	/* for execve */
 	char *arguments[] = {NULL};
 
+	(void)ac;
 
 	while (1)
 	{
@@ -51,7 +50,7 @@ int main(void)
 			exec_status = execve(command, arguments, environ);
 			if (exec_status == -1)
 			{
-				sprintf(err_msg, "sh: %d: %s", counts, command);
+				sprintf(err_msg, "%s", av[0]);
 				perror(err_msg);
 				_exit(errno);
 			}
