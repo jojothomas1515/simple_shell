@@ -55,8 +55,8 @@ int main(void)
 		}
 		else
 		{
-			wait(&status);
-			if (status != 0)
+			wait(&wstatus);
+			if (wstatus != 0)
 				kill(cpid, 9);
 		}
 	}
