@@ -50,7 +50,7 @@ int main(int ac, char **av)
 			exec_status = execve(command, arguments, environ);
 			if (exec_status == -1)
 			{
-				sprintf(err_msg, "sh: %d: %s", counts, command);
+				sprintf(err_msg, "%s: %d: %s",av[0], counts, command);
 				perror(err_msg);
 				_exit(errno);
 			}
