@@ -35,7 +35,7 @@ int main(__attribute__((unused)) int ac, char **av)
 			{
 				exec_error(command, av, counts);
 				free(line);
-				_exit(-1);
+				_exit(1);
 			}
 		}
 		else
