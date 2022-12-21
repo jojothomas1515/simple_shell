@@ -4,6 +4,8 @@ int stop_check(int *, char *);
 char *tokenize(char *);
 int whitespace(char *);
 
+extern char **environ;
+
 /**
  * main - simple shell program
  * Return: 0 on exit success
@@ -16,20 +18,21 @@ int main(void)
 	char *line, *command;
 	size_t len;
 	int status = 0;
-
 	/* for child process */
 	__pid_t cpid, wstatus;
 	int exec_status;
 	char err_msg[100];
-
 	/* to count the number of commands */
 	static int counts;
+	/* for execve */
+	char *arguments[] = {NULL};
+
 
 	while (1)
 	{
-		printf("$: ");
+		printf("$ ");
 		status = getline(&line, &len, stream);
-		stop_check(&status, line) == -1 ? exit(EXIT_SUCCESS) : NULL;
+		stop_check(&status, line) == -1 ? exit(EXIT_SUCCESS) : (void)NULL;
 		counts++;
 
 		if (whitespace(line))
@@ -45,7 +48,7 @@ int main(void)
 		}
 		if (cpid == 0)
 		{
-			exec_status = execve(command, NULL, NULL);
+			exec_status = execve(command, arguments, environ);
 			if (exec_status == -1)
 			{
 				sprintf(err_msg, "sh: %d: %s", counts, command);
