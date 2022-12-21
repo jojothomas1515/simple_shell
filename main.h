@@ -7,8 +7,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
+#include <errno.h>
 
 /* global variable */
 extern char **environ;
 
-#endif	/* MAIN_H */
+#endif /* MAIN_H */
