@@ -41,9 +41,9 @@ int main(__attribute__((unused)) int ac, char **av)
 		else
 		{
 			wait(&wstatus);
+			free(line);
 			if (wstatus != 0)
 				kill(cpid, 9);
-			free(line);
 		}
 	}
 	for (i = 0; arguments[i] != NULL; i++)
