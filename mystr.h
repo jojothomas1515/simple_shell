@@ -12,5 +12,6 @@ char *_strncat(char *, char *, size_t);
 char *_strcpy(char *, char *);
 char *_strncpy(char *, char *, size_t);
 char *_itoa(int num);
+char *_strdup(char *str);
 
 #endif /* MYSTR_H */

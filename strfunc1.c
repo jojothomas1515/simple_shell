@@ -86,3 +86,26 @@ char *_itoa(int num)
 	}
 	return (str);
 }
+
+/**
+ * _strdup - duplicate a string
+ * @str: target string
+ * Return: mem addr of string
+*/
+char *_strdup(char *str)
+{
+	size_t len = _strlen(str);
+	char *ret_str = malloc(sizeof(char) * (len + 1));
+	int i = 0;
+
+	if (ret_str == NULL)
+		return (NULL);
+
+	for (; str[i] != '\0'; i++)
+	{
+		ret_str[i] = str[i];
+	}
+	ret_str[i] = '\0';
+
+	return (ret_str);
+}
