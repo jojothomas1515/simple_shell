@@ -34,19 +34,23 @@ int main(__attribute__((unused)) int ac, char **av)
 			if (exec_status == -1)
 			{
 				exec_error(command, av, counts);
-				free(line);
+				if (line != NULL)
+					free(line);
 				_exit(1);
 			}
 		}
 		else
 		{
 			wait(&wstatus);
-			free(line);
+
 			if (wstatus != 0)
 				kill(cpid, 9);
+			if (!isatty(STDIN_FILENO))
+				free(line);
 		}
 	}
 	for (i = 0; arguments[i] != NULL; i++)
 		free(arguments[i]);
+	free(line);
 	return (0);
 }
