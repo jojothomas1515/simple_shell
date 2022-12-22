@@ -31,6 +31,7 @@ int main(__attribute__((unused)) int ac, char **av)
 		if (cpid == 0)
 		{
 			exec_status = execve(command, arguments, environ);
+
 			if (exec_status == -1)
 			{
 				exec_error(command, av, counts);
@@ -42,15 +43,15 @@ int main(__attribute__((unused)) int ac, char **av)
 		else
 		{
 			wait(&wstatus);
-
-			if (wstatus != 0)
+			if (WIFEXITED(wstatus))
+				exec_status = WEXITSTATUS(wstatus);
+			if (!WIFEXITED(wstatus))
 				kill(cpid, 9);
-			
 		}
 	}
 	for (i = 0; arguments[i] != NULL; i++)
 		;
 	if (line != NULL)
 		free(line);
-	return (0);
+	return (exec_status);
 }
