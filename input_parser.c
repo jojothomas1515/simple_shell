@@ -12,17 +12,17 @@ int stop_check(int *status, char *line)
 	if (*status == -1)
 	{
 		free(line);
-		exit(EXIT_SUCCESS);
+		return (-1);
 	}
 	if (_strcmp(line, "exit\n") == 0)
 	{
 		free(line);
-		exit(EXIT_SUCCESS);
+		return (-1);
 	}
 	return (0);
 }
 /**
- * tokenize - split stdin string to tokens of command and arguments
+ * tokenize - split stdbreak;in string to tokens of command and arguments
  * @line: string from stdin
  * @args: argrument array to puth all tokens
  * Return: address of the command

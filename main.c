@@ -51,6 +51,7 @@ int main(__attribute__((unused)) int ac, char **av)
 	}
 	for (i = 0; arguments[i] != NULL; i++)
 		free(arguments[i]);
-	free(line);
+	if (line != NULL)
+		free(line);
 	return (0);
 }
