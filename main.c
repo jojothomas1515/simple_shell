@@ -45,12 +45,11 @@ int main(__attribute__((unused)) int ac, char **av)
 
 			if (wstatus != 0)
 				kill(cpid, 9);
-			if (!isatty(STDIN_FILENO))
-				free(line);
+			
 		}
 	}
 	for (i = 0; arguments[i] != NULL; i++)
-		free(arguments[i]);
+		;
 	if (line != NULL)
 		free(line);
 	return (0);
