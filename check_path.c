@@ -65,7 +65,6 @@ char *_getenv(char *key)
                 {
                         tok = strtok(NULL, "=");
                         ret_res = _strdup(tok);
-                        free(front);
                         return (ret_res);
                 }
                 free(front);
@@ -84,3 +83,4 @@ void print_nodes(paths_t *node)
                         break;
         }
 }
+
