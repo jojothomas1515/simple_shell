@@ -8,19 +8,26 @@ paths_t *generate_paths()
 {
         char *path[100] = {NULL}, *env, *tok;
         int i = 1;
-        paths_t *head;
+        paths_t *head = malloc(sizeof(paths_t));
+        if (head == NULL)
+                return (NULL);
 
         env = _getenv("PATH");
         path[0] = strtok(env, ":");
 
         while ((tok = strtok(NULL, ":")) != NULL)
-                path[i++] = tok;
+        {
+                path[i] = tok;
+                i++;
+        }
         path[i] = NULL;
 
         for (i = 0; path[i] != NULL; i++)
                 path[i] = strtok(path[i], "\n");
 
-        for (i = 0; path[i] != NULL; i++)
+        head->key = _strdup("PATH");
+        head->value = path[0];
+        for (i = 1; path[i] != NULL; i++)
                 add_node(&head, "PATH", path[i]);
 
         return (head);
@@ -28,15 +35,15 @@ paths_t *generate_paths()
 
 paths_t *add_node(paths_t **head, char *key, char *value)
 {
-        paths_t *temp = *head;
-        paths_t *new_node;
+        paths_t *temp = (*head);
+        paths_t *new_node = NULL;
 
         new_node = malloc(sizeof(paths_t));
         if (new_node == NULL)
                 return (NULL);
 
         new_node->key = _strdup(key);
-        new_node->value = value;
+        new_node->value = _strdup(value);
         new_node->next = NULL;
 
         if (temp == NULL)
@@ -53,8 +60,8 @@ paths_t *add_node(paths_t **head, char *key, char *value)
 
 char *_getenv(char *key)
 {
-        char *front, *copy_env, *ret_res, *tok;
-        int i;
+        char *front = NULL, *copy_env = NULL, *ret_res = NULL, *tok = NULL;
+        int i = 0;
 
         for (i = 0; environ[i] != NULL; i++)
         {
@@ -67,20 +74,40 @@ char *_getenv(char *key)
                         ret_res = _strdup(tok);
                         return (ret_res);
                 }
-                free(front);
+                if (front != NULL)
+                        free(front);
         }
         return (NULL);
 }
 
-void print_nodes(paths_t *node)
+void free_paths(paths_t *node)
 {
-        while (node)
+        paths_t *temp;
+        while (node != NULL)
         {
-                printf("The key is %s, and value is = %s \n", node->key, node->value);
-                if (node->next)
+                if (node->key != NULL)
+                        free(node->key);
+                if (node->value != NULL)
+                        free(node->value);
+
+                if (node->next != NULL)
+                {
+                        temp = node;
                         node = node->next;
+                        if (temp != NULL)
+                                free(temp);
+                }
                 else
+                {
+                        free(node);
                         break;
+                }
         }
 }
 
+int main(void)
+{
+        paths_t *head = generate_paths();
+        free_paths(head);
+        return (0);
+}
