@@ -30,4 +30,16 @@ typedef struct paths
 	struct paths *next;
 } paths_t;
 
+typedef struct OPS
+{
+	char *arr;
+	void (*func)();
+} opt_t;
+
+/* builtins */
+void print_env(void);
+
+/* builtin function pointers */
+int check_builtin(char *arg);
+
 #endif /* MAIN_H */
