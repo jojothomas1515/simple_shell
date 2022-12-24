@@ -12,7 +12,7 @@ int main(__attribute__((unused)) int ac, char **av)
 	FILE *stream = stdin;
 	char *line = NULL, *command = NULL, *arguments[10] = {NULL};
 	size_t len = 0;
-	int status = 0, i, counts = 0, exec_status = 0;
+	int status = 0, i, counts = 0, exec_status = 0, b_in;
 	__pid_t cpid = 0, wstatus = 0;
 
 	while (1)
@@ -25,6 +25,9 @@ int main(__attribute__((unused)) int ac, char **av)
 		if (whitespace(line))
 			continue;
 		command = tokenize(line, arguments);
+		b_in = check_builtin(command);
+		if (b_in)
+			continue;
 		cpid = fork();
 		if (cpid == -1)
 			break;
