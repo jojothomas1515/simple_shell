@@ -1,6 +1,19 @@
 {
   "files.associations": {
     "shell.h": "c",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "*.tcc": "c",
+    "array": "c",
+    "numeric": "c",
+    "functional": "c",
+    "new": "c",
+    "stdexcept": "c",
+    "streambuf": "c",
+    "tuple": "c",
+    "utils.h": "c",
+    "wait.h": "c",
+    "string_op.h": "c"
   }
 }

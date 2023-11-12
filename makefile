@@ -7,10 +7,10 @@ OBJ=$(SRC:.c=.o)
 all: hsh clean
 
 hsh: $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $@
+	$(CC) $(FLAGS) $(OBJ) -g -o $@
 
 $(OBJ): $(SRC)
-	$(CC) -c $(FLAGS) $(SRC)
+	$(CC) -c -g $(FLAGS) $(SRC)
 
 clean:
 	rm -rf *.o

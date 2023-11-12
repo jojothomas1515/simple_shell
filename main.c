@@ -1,7 +1,9 @@
 #include "shell.h"
+#include "string_op.h"
 
 /**
  * main - entry point
+ * Return: 0 on success
  */
 int main(void)
 {
