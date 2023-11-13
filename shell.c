@@ -53,7 +53,7 @@ void execute(char *line)
 
 		if (execve(c_args[0], c_args, NULL) == -1)
 		{
-			perror("An error occured");
+			perror("hsh");
 			_exit(-1);
 		};
 	}
