@@ -13,7 +13,7 @@ void shell(void)
 		char *line;
 		size_t len = 0;
 
-		printf("($): ");
+		write_string("($): ");
 		if (getline(&line, &len, stdin) != -1)
 		{
 			if (_strcmp(line, "exit\n") == 0)
@@ -59,6 +59,6 @@ void execute(char *line)
 	}
 	if ((pid != 0) && (wait(&wait_status) == -1))
 	{
-		printf("an error occured\n");
+		write_string("an error occured\n");
 	}
 }
