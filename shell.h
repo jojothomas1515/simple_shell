@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-void shell();
+void shell(void);
 
 void execute(char *);
 
