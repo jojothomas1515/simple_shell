@@ -3,18 +3,22 @@
 
 /**
  * main - entry point
+ * @argc: arguments count
+ * @args: arguments array
  * Return: 0 on success
  */
-int main(void)
+int main(int argc, char **args)
 {
+
+	(void)argc;
 
 	if (isatty(STDIN_FILENO) == 1)
 	{
-		shell();
+		shell(args);
 	}
 	else
 	{
-		shell();
+		shell(args);
 	}
 	return (0);
 }

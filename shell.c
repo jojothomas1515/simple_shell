@@ -4,16 +4,17 @@
 
 /**
  * shell - Runs the shell in an infinite loop
+ * @args: arguments array
  *
  */
-void shell(void)
+void shell(char **args)
 {
 	while (1)
 	{
 		char *line;
 		size_t len = 0;
 
-		write_string("($): ");
+		write_string("($) ");
 		if (getline(&line, &len, stdin) != -1)
 		{
 			if (_strcmp(line, "exit\n") == 0)
@@ -21,7 +22,10 @@ void shell(void)
 				free(line);
 				exit(0);
 			}
-			execute(line);
+			if (strcmp(line, "\n") != 0)
+			{
+				execute(line, args);
+			}
 			free(line);
 		}
 		else
@@ -38,8 +42,9 @@ void shell(void)
  * excute it in a new child process
  *
  * @line: the string containing the command
+ * @args: arguments array
  */
-void execute(char *line)
+void execute(char *line, char **args)
 {
 
 	__pid_t pid;
@@ -53,7 +58,7 @@ void execute(char *line)
 
 		if (execve(c_args[0], c_args, NULL) == -1)
 		{
-			perror("hsh");
+			perror(args[0]);
 			_exit(-1);
 		};
 	}
