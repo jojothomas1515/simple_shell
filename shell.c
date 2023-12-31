@@ -6,9 +6,12 @@
  * shell - Runs the shell in an infinite loop
  * @args: arguments array
  *
+ * Return: execute status code
  */
-void shell(char **args)
+int shell(char **args)
 {
+	int status_code = 0;
+
 	while (1)
 	{
 		char *line;
@@ -20,11 +23,11 @@ void shell(char **args)
 			if (_strcmp(line, "exit\n") == 0)
 			{
 				free(line);
-				exit(0);
+				_exit(0);
 			}
 			if (strcmp(line, "\n") != 0)
 			{
-				execute(line, args);
+				status_code = execute(line, args);
 			}
 			free(line);
 		}
@@ -35,6 +38,8 @@ void shell(char **args)
 			break;
 		}
 	}
+
+	return (status_code);
 }
 
 /**
@@ -43,12 +48,15 @@ void shell(char **args)
  *
  * @line: the string containing the command
  * @args: arguments array
+ *
+ * Return: execute status code
  */
-void execute(char *line, char **args)
+int execute(char *line, char **args)
 {
 
 	__pid_t pid;
 	int wait_status;
+	int execute_status;
 
 	pid = fork();
 	if (pid == 0)
@@ -56,7 +64,9 @@ void execute(char *line, char **args)
 		char *command = strip_newline(line);
 		char **c_args = tokenize(command);
 
-		if (execve(c_args[0], c_args, NULL) == -1)
+		execute_status = execve(c_args[0], c_args, NULL);
+
+		if (execute_status == -1)
 		{
 			perror(args[0]);
 			_exit(-1);
@@ -66,4 +76,6 @@ void execute(char *line, char **args)
 	{
 		write_string("an error occured\n");
 	}
+
+	return (execute_status);
 }

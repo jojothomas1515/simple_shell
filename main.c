@@ -14,11 +14,11 @@ int main(int argc, char **args)
 
 	if (isatty(STDIN_FILENO) == 1)
 	{
-		shell(args);
+		return (shell(args));
 	}
 	else
 	{
-		shell(args);
+		return (shell(args));
 	}
 	return (0);
 }

@@ -7,8 +7,8 @@
 #include <sys/wait.h>
 #include <string.h>
 
-void shell(char **);
+int shell(char **);
 
-void execute(char *, char **);
+int execute(char *, char **);
 
 #endif /*SHELL_H*/
