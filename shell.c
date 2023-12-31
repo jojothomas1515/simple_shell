@@ -11,11 +11,14 @@
 int shell(char **args)
 {
 	int status_code = 0;
+	unsigned int hist_count = 0;
 
 	while (1)
 	{
 		char *line;
 		size_t len = 0;
+
+		hist_count++;
 
 		write_string("($) ");
 		if (getline(&line, &len, stdin) != -1)
@@ -27,7 +30,7 @@ int shell(char **args)
 			}
 			if (strcmp(line, "\n") != 0)
 			{
-				status_code = execute(line, args);
+				status_code = execute(line, args, hist_count);
 			}
 			free(line);
 		}
@@ -48,10 +51,11 @@ int shell(char **args)
  *
  * @line: the string containing the command
  * @args: arguments array
+ * @hist_count: number of the current command
  *
  * Return: execute status code
  */
-int execute(char *line, char **args)
+int execute(char *line, char **args, unsigned int hist_count)
 {
 
 	__pid_t pid;
@@ -68,7 +72,12 @@ int execute(char *line, char **args)
 
 		if (execute_status == -1)
 		{
-			perror(args[0]);
+			write_string(args[0]);
+			write_string(": ");
+			write_string(itoa(hist_count));
+			write_string(": ");
+			write_string(c_args[0]);
+			write_char('\n');
 			_exit(-1);
 		};
 	}

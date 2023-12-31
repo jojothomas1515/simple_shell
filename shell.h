@@ -9,6 +9,6 @@
 
 int shell(char **);
 
-int execute(char *, char **);
+int execute(char *, char **, unsigned int);
 
 #endif /*SHELL_H*/
