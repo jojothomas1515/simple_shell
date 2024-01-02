@@ -60,7 +60,7 @@ int execute(char *line, char **args, unsigned int hist_count)
 
 	__pid_t pid;
 	int wait_status;
-	int execute_status;
+	int execute_status = 0;
 
 	pid = fork();
 	if (pid == 0)
@@ -77,8 +77,8 @@ int execute(char *line, char **args, unsigned int hist_count)
 			write_string(itoa(hist_count));
 			write_string(": ");
 			write_string(c_args[0]);
-            write_string(": not found");
-            write_char('\n');
+			write_string(": not found");
+			write_char('\n');
 			_exit(-1);
 		};
 	}
