@@ -12,6 +12,7 @@ int shell(char **args)
 {
 	int status_code = 0;
 	unsigned int hist_count = 0;
+	char *command = NULL;
 
 	while (1)
 	{
@@ -30,7 +31,17 @@ int shell(char **args)
 			}
 			if (strcmp(line, "\n") != 0)
 			{
-				status_code = execute(line, args, hist_count);
+				if (_strncmp(line, "/", 1) != 0)
+				{
+					command = malloc(sizeof(char) * (5 + _strlen(line)));
+					command = strcat(command, "/bin/");
+					command = strcat(command, line);
+				}
+				else
+				{
+					command = line;
+				}
+				status_code = execute(command, args, hist_count);
 			}
 			free(line);
 		}

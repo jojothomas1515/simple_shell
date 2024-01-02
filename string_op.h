@@ -14,4 +14,6 @@ char *_strrev(char *);
 
 char *itoa(int);
 
+int _strncmp(char *, char *, unsigned int);
+
 #endif /* STRING_OP_H */
