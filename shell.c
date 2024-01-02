@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "utils.h"
 #include "string_op.h"
+#include "sys/wait.h"
 
 /**
  * shell - Runs the shell in an infinite loop
@@ -12,7 +13,6 @@ int shell(char **args)
 {
 	int status_code = 0;
 	unsigned int hist_count = 0;
-	char *command = NULL;
 
 	while (1)
 	{
@@ -31,18 +31,10 @@ int shell(char **args)
 			}
 			if (strcmp(line, "\n") != 0)
 			{
-				if (_strncmp(line, "/", 1) != 0)
-				{
-					command = malloc(sizeof(char) * (5 + _strlen(line)));
-					command = strcat(command, "/bin/");
-					command = strcat(command, line);
-				}
-				else
-				{
-					command = line;
-				}
-				status_code = execute(command, args, hist_count);
+
+				status_code = execute(line, args, hist_count);
 			}
+
 			free(line);
 		}
 		else
@@ -54,6 +46,23 @@ int shell(char **args)
 	}
 
 	return (status_code);
+}
+
+/**
+ * path_checker - parse command so it can run
+ * Description: check if the command passed is and absolute path
+ * to the executable , if not append command to path
+ * @str: the command string
+ * Return: NULL or the proper string
+ *
+ */
+char *path_checker(char *str)
+{
+	if (_strncmp(str, "/", 1) == 0)
+	{
+		return (str);
+	}
+	return (NULL);
 }
 
 /**
@@ -71,32 +80,29 @@ int execute(char *line, char **args, unsigned int hist_count)
 
 	__pid_t pid;
 	int wait_status;
-	int execute_status = 0;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		char *command = strip_newline(line);
-		char **c_args = tokenize(command);
+		char **c_args;
+		char *command = path_checker(line);
 
-		execute_status = execve(c_args[0], c_args, NULL);
+		command = strip_newline(line);
+		c_args = tokenize(command);
 
-		if (execute_status == -1)
-		{
-			write_string(args[0]);
-			write_string(": ");
-			write_string(itoa(hist_count));
-			write_string(": ");
-			write_string(c_args[0]);
-			write_string(": not found");
-			write_char('\n');
-			_exit(-1);
-		};
+		execve(c_args[0], c_args, NULL);
+
+		write_string(args[0]);
+		write_string(": ");
+		write_string(itoa(hist_count));
+		write_string(": ");
+		write_string(c_args[0]);
+		write_string(": not found");
+		write_char('\n');
 	}
-	if ((pid != 0) && (wait(&wait_status) == -1))
+	if ((pid != 0) && (waitpid(pid, &wait_status, WEXITSTATUS(0)) == -1))
 	{
 		write_string("an error occured\n");
 	}
-
-	return (execute_status);
+	return (wait_status);
 }

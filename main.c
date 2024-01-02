@@ -18,7 +18,9 @@ int main(int argc, char **args)
 	}
 	else
 	{
+		printf("what is wrong.\n");
 		return (shell(args));
 	}
+
 	return (0);
 }
